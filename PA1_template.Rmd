@@ -1,25 +1,72 @@
 ---
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
+title: "PA1_template.Rmd"
+author: "Stephan Regenass"
+date: "20 Mar 2016"
+output: html_document
 ---
 
 
-## Loading and preprocessing the data
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
+## Assignment 1 (R Markdown) 
 
+This is an literate programming (R Markdown) document which documents my solution to **assignment 1** of Coursera Course Reproducible Research.
 
-## What is mean total number of steps taken per day?
+###Loading and Preprocessing the data: ###
 
+1. Load the data:
 
+```{r read.data}
+activity<-read.csv("activity.csv")
+# summary(activity)
+```
 
-## What is the average daily activity pattern?
+2. Preprocess the data: 
+Convert **date** to Date class and **interval** to Factor class
 
+```{r convert date}
+activity$date <- as.Date(activity$date, format = "%Y-%m-%d")
+activity$interval <- as.factor(activity$interval)
+str(activity)
+```
 
+###What is (mean?) total number of steps taken per day?###
+*comment: the assignment mentions "mean" - is this a typo?*
 
-## Imputing missing values
+1. Calculate the total number of steps per day:
 
+```{r calculateStepsAday}
+stepsAday<-aggregate(steps ~ date, activity, sum)
+print(stepsAday)
+```
 
+2. Make a histogram of the total number of steps taken each day:
 
-## Are there differences in activity patterns between weekdays and weekends?
+```{r makeHistogram}
+hist(stepsAday$steps, main="total number of steps taken each day",xlab="number of steps per day")
+```
+
+3. Calculate the mean and median of the total steps taken per day:
+
+```{r MeanMedian}
+stepsMean<-mean(stepsAday$steps)
+stepsMedian<-median(stepsAday$steps)
+```
+
+Per day the mean number of steps is `r format(stepsMean, nsmall=3)` and the median is `r stepsMedian` .
+
+###What is the average daily activity pattern?###
+
+1. Make a time series plot  of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+
+```{r timePlot}
+#plot(activity$interval,activity$steps,type="l")
+```
+
+2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+
+```{r maxStepInterval}
+#which.max(activity$steps)
+```
